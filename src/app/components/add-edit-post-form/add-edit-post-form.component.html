@@ -1,0 +1,37 @@
+<h5>{{ addPostData.id ? 'Edit post' : 'Add new post' }}</h5>
+<form #addPost="ngForm" novalidate>
+  <div class="form-group">
+    <label for="postTitle">Post title</label>
+    <input
+      type="text"
+      id="postTitle"
+      class="form-control"
+      [(ngModel)]="addPostData.title"
+      [ngClass]="{'is-invalid': postTitle.invalid && postTitle.touched, 'is-valid': postTitle.valid && postTitle.touched}"
+      #postTitle="ngModel"
+      name="postTitle"
+      placeholder="Insert post title"
+      required minlength="3"
+    >
+    <div class="invalid-feedback" [hidden]="postTitle.valid">Title required. Min 3 chars</div>
+  </div>
+  <div class="form-group">
+    <label for="postText">Post text</label>
+    <textarea
+      class="form-control"
+      id="postText"
+      [(ngModel)]="addPostData.body"
+      [ngClass]="{'is-invalid': postText.invalid && postText.touched, 'is-valid': postText.valid && postText.touched}"
+      #postText="ngModel"
+      name="comments"
+      placeholder="Insert your post text"
+      required
+      rows="3"
+      minlength="10"
+    ></textarea>
+    <div class="invalid-feedback" [hidden]="postText.valid">Post text required. Min 10 chars</div>
+  </div>
+  <button type="submit" class="btn btn-dark btn-block" [disabled]="addPost.invalid" (click)="onSubmitPostData(addPost)" *ngIf="!addPostData.id">{{ addPost.valid ? 'Add post' : 'Insert title and text before add post' }}</button>
+  <button class="btn btn-dark col-4" *ngIf="addPostData.id" [disabled]="addPost.invalid" (click)="onEditPostData(addPost, addPostData.id)">Edit</button>
+  <button class="btn btn-danger col-4 float-right" *ngIf="addPostData.id" (click)="onCancel()">Cancel</button>
+</form>
